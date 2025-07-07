@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Post;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use \Illuminate\Http\JsonResponse;
+
 class PostController extends Controller
 {
     public function index(): JsonResponse
@@ -26,7 +26,7 @@ class PostController extends Controller
 
     public function show($id)
     {
-        return response()->json(Post::findOrFail($id));
+        return response()->json(Post::find($id));
     }
 
     public function update(Request $request, $id)

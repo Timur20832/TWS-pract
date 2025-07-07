@@ -2,27 +2,21 @@
 
 /*
 |--------------------------------------------------------------------------
-| Create The Application
+| Создание приложения
 |--------------------------------------------------------------------------
 |
-| The first thing we will do is create a new Laravel application instance
-| which serves as the "glue" for all the components of Laravel, and is
-| the IoC container for the system binding all of the various parts.
+| Первое, что мы сделаем, — это создадим новый экземпляр приложения Laravel.
+| Он служит «клеем» для всех компонентов Laravel и является
+| контейнером IoC для системы, связывающей все её части.
 |
-*
-
-$app = new Illuminate\Foundation\Application(
-    $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__)
-);
-
-/*
+|
 |--------------------------------------------------------------------------
-| Bind Important Interfaces
+| Привязка важных интерфейсов
 |--------------------------------------------------------------------------
 |
-| Next, we need to bind some important interfaces into the container so
-| we will be able to resolve them when needed. The kernels serve the
-| incoming requests to this application from both the web and CLI.
+| Далее нам нужно привязать к контейнеру несколько важных интерфейсов, чтобы
+| мы могли обращаться к ним при необходимости. Ядра обрабатывают
+| входящие запросы к этому приложению как через веб-интерфейс, так и через интерфейс командной строки.
 |
 */
 $app = new Illuminate\Foundation\Application(

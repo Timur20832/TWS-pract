@@ -1,6 +1,10 @@
 <?php
 
+namespace App\Http\Controllers;
+
+use AuthService;
 use Illuminate\Routing\Controller;
+use LoginRequest;
 
 class AuthController extends Controller
 {

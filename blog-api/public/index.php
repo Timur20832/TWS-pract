@@ -4,15 +4,14 @@ use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
-
 /*
 |--------------------------------------------------------------------------
-| Check If The Application Is Under Maintenance
+| Проверьте, не находится ли приложение на техническом обслуживании
 |--------------------------------------------------------------------------
 |
-| If the application is in maintenance / demo mode via the "down" command
-| we will load this file so that any pre-rendered content can be shown
-| instead of starting the framework, which could cause an exception.
+| Если приложение находится в режиме технического обслуживания / демонстрационном режиме с помощью команды «down»,
+| мы загрузим этот файл, чтобы можно было отобразить предварительно отрендеренный контент
+| вместо запуска фреймворка, который может вызвать исключение.
 |
 */
 
@@ -22,12 +21,12 @@ if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php'))
 
 /*
 |--------------------------------------------------------------------------
-| Register The Auto Loader
+| Зарегистрируйте автозагрузчик
 |--------------------------------------------------------------------------
 |
-| Composer provides a convenient, automatically generated class loader for
-| this application. We just need to utilize it! We'll simply require it
-| into the script here so we don't need to manually load our classes.
+| Composer предоставляет удобный автоматически генерируемый загрузчик классов для
+| этого приложения. Нам просто нужно его использовать! Мы просто подключим его
+| к скрипту, чтобы нам не пришлось вручную загружать наши классы.
 |
 */
 
@@ -35,12 +34,12 @@ require __DIR__.'/../vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
-| Run The Application
+| Запустите приложение
 |--------------------------------------------------------------------------
 |
-| Once we have the application, we can handle the incoming request using
-| the application's HTTP kernel. Then, we will send the response back
-| to this client's browser, allowing them to enjoy our application.
+| После запуска приложения мы можем обработать входящий запрос с помощью
+| HTTP-ядра приложения. Затем мы отправим ответ
+| в браузер клиента, чтобы он мог пользоваться нашим приложением.
 |
 */
 

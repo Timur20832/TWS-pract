@@ -1,23 +1,26 @@
 <?php
+/*
+|--------------------------------------------------------------------------
+| Маршруты API
+|--------------------------------------------------------------------------
+|
+| Здесь вы можете зарегистрировать маршруты API для своего приложения. Эти
+| маршруты загружаются RouteServiceProvider в рамках группы, которой
+| назначена группа промежуточного программного обеспечения «api». Наслаждайтесь созданием своего API!
+|
+*/
 
+use App\Http\Controllers\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Api\PostController;
 
-Route::apiResource('posts', PostController::class);
-Route::post('/login', [AuthController::class, 'login']);
+//Route::apiResource('posts', PostController::class);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+
+
+/* бета-тестирование */
+
+Route::get('/posts', [PostController::class, 'index']);

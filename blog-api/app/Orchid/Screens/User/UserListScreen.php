@@ -4,32 +4,22 @@ declare(strict_types=1);
 
 namespace App\Orchid\Screens\User;
 
-use App\Orchid\Layouts\User\UserEditLayout;
-use App\Orchid\Layouts\User\UserFiltersLayout;
-use App\Orchid\Layouts\User\UserListLayout;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Orchid\Platform\Models\User;
+use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
+use Orchid\Screen\TD;
 use Orchid\Support\Facades\Layout;
 use Orchid\Support\Facades\Toast;
 
 class UserListScreen extends Screen
 {
-    /**
-     * Query data.
-     *
-     * @return array
-     */
     public function query(): iterable
     {
         return [
-            'users' => User::with('roles')
-                ->filters()
-                ->filtersApplySelection(UserFiltersLayout::class)
-                ->defaultSort('id', 'desc')
-                ->paginate(),
+            'users' => User::paginate(),
         ];
     }
 
@@ -56,12 +46,6 @@ class UserListScreen extends Screen
     /**
      * @return iterable|null
      */
-    public function permission(): ?iterable
-    {
-        return [
-            'platform.systems.users',
-        ];
-    }
 
     /**
      * Button commands.
@@ -85,19 +69,30 @@ class UserListScreen extends Screen
     public function layout(): iterable
     {
         return [
-            UserFiltersLayout::class,
-            UserListLayout::class,
+            Layout::table('users', [
+                TD::make('name', 'Имя'),
+                TD::make('email', 'Email'),
+                TD::make('updated_at', 'Обновлено'),
+                TD::make('Actions')
+                    ->render(
+                    function(User $user) {
+                        return '<div class="d-flex flex-column gap-2">' .
+                            Link::make('Редактировать')
+                                ->route('platform.systems.users.edit', $user)
+                                ->class('btn btn-sm ')
+                                ->render().
 
-            Layout::modal('asyncEditUserModal', UserEditLayout::class)
-                ->async('asyncGetUser'),
+                            Button::make('Удалить')
+                                ->confirm('Вы уверены, что хотите удалить этого пользователя?')
+                                ->method('remove', ['id' => $user->id])
+                                ->class('btn btn-sm ')
+                                ->render() .
+                        '</div>';
+                    })
+            ]),
         ];
     }
 
-    /**
-     * @param User $user
-     *
-     * @return array
-     */
     public function asyncGetUser(User $user): iterable
     {
         return [
@@ -105,10 +100,6 @@ class UserListScreen extends Screen
         ];
     }
 
-    /**
-     * @param Request $request
-     * @param User    $user
-     */
     public function saveUser(Request $request, User $user): void
     {
         $request->validate([
@@ -123,13 +114,15 @@ class UserListScreen extends Screen
         Toast::info(__('User was saved.'));
     }
 
-    /**
-     * @param Request $request
-     */
     public function remove(Request $request): void
     {
-        User::findOrFail($request->get('id'))->delete();
+        $id = $request->get('id');
 
-        Toast::info(__('User was removed'));
+        if ($user = User::find($id)) {
+            $user->delete();
+            Toast::info(__('User was removed'));
+        } else {
+            Toast::error(__('User not found'));
+        }
     }
 }

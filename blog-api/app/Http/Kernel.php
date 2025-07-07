@@ -7,9 +7,9 @@ use Illuminate\Foundation\Http\Kernel as HttpKernel;
 class Kernel extends HttpKernel
 {
     /**
-     * The application's global HTTP middleware stack.
+     * Глобальный стек промежуточного программного обеспечения HTTP для приложения.
      *
-     * These middleware are run during every request to your application.
+     * Эти промежуточные программы запускаются при каждом запросе к вашему приложению.
      *
      * @var array<int, class-string|string>
      */
@@ -24,7 +24,7 @@ class Kernel extends HttpKernel
     ];
 
     /**
-     * The application's route middleware groups.
+     * Группы промежуточного программного обеспечения маршрутов приложения.
      *
      * @var array<string, array<int, class-string|string>>
      */
@@ -47,14 +47,15 @@ class Kernel extends HttpKernel
     ];
 
     /**
-     * The application's route middleware.
+     * Промежуточное ПО для маршрутов приложения.
      *
-     * These middleware may be assigned to groups or used individually.
+     * Эти промежуточные ПО могут быть назначены группам или использоваться по отдельности.
      *
      * @var array<string, class-string|string>
      */
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
+        //'admin.only' => \App\Http\Middleware\AdminOnly::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,

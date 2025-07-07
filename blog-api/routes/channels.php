@@ -1,17 +1,16 @@
 <?php
-
-use Illuminate\Support\Facades\Broadcast;
-
 /*
 |--------------------------------------------------------------------------
-| Broadcast Channels
+| Широковещательные каналы
 |--------------------------------------------------------------------------
 |
-| Here you may register all of the event broadcasting channels that your
-| application supports. The given channel authorization callbacks are
-| used to check if an authenticated user can listen to the channel.
+| Здесь вы можете зарегистрировать все каналы трансляции событий, которые поддерживает ваше приложение
+|. Данные обратные вызовы для авторизации канала
+| используются для проверки того, может ли аутентифицированный пользователь прослушивать канал.
 |
 */
+
+use Illuminate\Support\Facades\Broadcast;
 
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
