@@ -15,6 +15,7 @@ class PlatformScreen extends Screen
         return [];
     }
 
+
     public function name(): ?string
     {
         return 'its main';

@@ -13,12 +13,10 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 Route::get('/logout', function () {
     Auth::logout();           // Выход пользователя
     request()->session()->invalidate();  // Инвалидируем сессию
     request()->session()->regenerateToken(); // Обновляем CSRF токен
-    return redirect('/login'); // Перенаправляем на страницу входа
+    return redirect('/admin/login'); // Перенаправляем на страницу входа
 })->name('logout');

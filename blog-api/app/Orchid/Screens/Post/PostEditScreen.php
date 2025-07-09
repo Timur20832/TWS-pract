@@ -80,4 +80,10 @@ class PostEditScreen extends Screen
 
         return redirect()->route('platform.posts');
     }
+    public function permission(): ?iterable
+    {
+        return [
+            'platform.posts.list',
+        ];
+    }
 }

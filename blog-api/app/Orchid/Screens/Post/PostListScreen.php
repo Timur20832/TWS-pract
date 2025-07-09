@@ -64,4 +64,10 @@ class PostListScreen extends Screen
             Toast::error(__('Post not found'));
         }
     }
+    public function permission(): ?iterable
+    {
+        return [
+            'platform.posts.list',
+        ];
+    }
 }

@@ -23,49 +23,25 @@ class UserListScreen extends Screen
         ];
     }
 
-    /**
-     * Display header name.
-     *
-     * @return string|null
-     */
     public function name(): ?string
     {
         return 'User';
     }
 
-    /**
-     * Display header description.
-     *
-     * @return string|null
-     */
     public function description(): ?string
     {
         return 'All registered users';
     }
 
-    /**
-     * @return iterable|null
-     */
-
-    /**
-     * Button commands.
-     *
-     * @return \Orchid\Screen\Action[]
-     */
     public function commandBar(): iterable
     {
         return [
             Link::make(__('Add'))
                 ->icon('plus')
-                ->route('platform.systems.users.create'),
+                ->route('platform.users.create'),
         ];
     }
 
-    /**
-     * Views.
-     *
-     * @return string[]|\Orchid\Screen\Layout[]
-     */
     public function layout(): iterable
     {
         return [
@@ -78,7 +54,7 @@ class UserListScreen extends Screen
                     function(User $user) {
                         return '<div class="d-flex flex-column gap-2">' .
                             Link::make('Редактировать')
-                                ->route('platform.systems.users.edit', $user)
+                                ->route('platform.users.edit', $user)
                                 ->class('btn btn-sm ')
                                 ->render().
 
@@ -124,5 +100,11 @@ class UserListScreen extends Screen
         } else {
             Toast::error(__('User not found'));
         }
+    }
+    public function permission(): ?iterable
+    {
+        return [
+            'platform.systems.users',
+        ];
     }
 }

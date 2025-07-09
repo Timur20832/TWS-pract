@@ -22,17 +22,17 @@ class PlatformProvider extends OrchidServiceProvider
     {
         return [
             Menu::make('Users')
-                ->icon('users')
+                ->icon('user')
                 ->route('platform.users')
-                ->permission('platform.systems.users')
-                ->canSee(auth()->check() && auth()->user()->inRole('admin')),
+                ->permission('platform.systems.users'),
 
             Menu::make('Posts')
                 ->icon('note')
                 ->route('platform.posts')
-                ->permission('platform.systems.users')
-                ->canSee(auth()->check() && auth()->user()->inRole('admin')),
-        ];
+                ->permission('platform.posts.list'),
+
+            ];
+
     }
 
     public function registerProfileMenu(): array
@@ -40,16 +40,17 @@ class PlatformProvider extends OrchidServiceProvider
         return [
             Menu::make('Profile')
                 ->route('platform.profile')
-                ->icon('user'),
+                ->icon('user')
         ];
     }
 
-    public function registerPermissions(): array
+    public function permissions(): array
     {
         return [
             ItemPermission::group(__('System'))
                 ->addPermission('platform.systems.roles', __('Roles'))
-                ->addPermission('platform.systems.users', __('Users')),
+                ->addPermission('platform.systems.users', __('Users'))
+                ->addPermission('platform.posts.list', __('Posts')),
         ];
     }
 }
