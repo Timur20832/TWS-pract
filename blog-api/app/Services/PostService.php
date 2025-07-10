@@ -15,7 +15,7 @@ class PostService
         // Создаем новый пост и присваиваем поля явно, чтобы избежать ошибок
         $post = new Post();
         $post->title = $dto->title;
-        $post->text = $dto->text;
+        $post->content = $dto->content;
         $post->user_id = $user->id;  // связываем пост с пользователем
 
         $post->save();

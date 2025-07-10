@@ -5,11 +5,11 @@ namespace App\DTO\Post;
 class CreatePostDto
 {
     public string $title;
-    public string $text;
+    public string $content;
 
-    public function __construct(string $title, string $text)
+    public function __construct(string $title, string $content)
     {
-        $this->text = $text;
+        $this->content = $content;
         $this->title = $title;
     }
 }

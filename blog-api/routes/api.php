@@ -22,3 +22,9 @@ Route::prefix('auth')->group(function () {
     Route::get('me', [AuthController::class, 'me'])->middleware('auth:sanctum');
     Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 });
+
+Route::middleware('auth:sanctum')->prefix('posts')->group(function () {
+    Route::post('/', [PostController::class, 'create']);
+    Route::get('/', [PostController::class, 'all']);
+    Route::get('/my', [PostController::class, 'my']);
+});

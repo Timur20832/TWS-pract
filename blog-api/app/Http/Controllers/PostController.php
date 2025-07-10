@@ -5,45 +5,62 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\DTO\Post\CreatePostDto;
+use App\DTO\Post\PostQueryDto;
+use App\Http\Requests\CreatePostRequest;
+use App\Http\Resources\PostResource;
+use App\Services\PostService;
+use Illuminate\Routing\Controller;
 
 class PostController extends Controller
 {
-    public function index(): JsonResponse
-    {
-        return response()->json(Post::all());
+    private PostService $postService;
+
+    public function __construct(PostService $postService) {
+        $this->postService = $postService;
     }
 
-    public function store(Request $request)
+    public function create(CreatePostRequest $request): JsonResponse
     {
-        $post = Post::create($request->validate([
-            'title' => 'required|string',
-            'content' => 'required|string',
-            'user_id' => 'required|integer',
-        ]));
+        $dto = new CreatePostDto(
+            $request->input('title'),
+            $request->input('content')
+        );
 
-        return response()->json($post, 201);
+        $post = $this->postService->createPost($request->user(), $dto);
+
+        return response()->json(new PostResource($post), 201);
     }
 
-    public function show($id)
+    public function all(Request $request): JsonResponse
     {
-        return response()->json(Post::find($id));
+        $dto = new PostQueryDto(
+            $request->query('sort_by', 'created_at'),
+            $request->query('sort_order', 'desc'),
+            $request->query('limit', 10),
+            $request->query('offset', 0),
+            $request->query('date_from'),
+            $request->query('date_to'),
+        );
+
+        $posts = $this->postService->getAllPosts($dto);
+
+        return response()->json(PostResource::collection($posts), 200);
     }
 
-    public function update(Request $request, $id)
+    public function my(Request $request): JsonResponse
     {
-        $post = Post::findOrFail($id);
-        $post->update($request->validate([
-            'title' => 'string',
-            'content' => 'string',
-            'user_id' => 'integer',
-        ]));
+        $dto = new PostQueryDto(
+            $request->query('sort_by', 'created_at'),
+            $request->query('sort_order', 'desc'),
+            $request->query('limit', 10),
+            $request->query('offset', 0),
+            $request->query('date_from'),
+            $request->query('date_to'),
+        );
 
-        return response()->json($post);
-    }
+        $posts = $this->postService->getUserPosts($request->user(), $dto);
 
-    public function destroy($id)
-    {
-        Post::destroy($id);
-        return response()->json(['message' => 'Deleted']);
+        return response()->json(PostResource::collection($posts), 200);
     }
 }
