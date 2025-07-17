@@ -12,4 +12,5 @@ class LoginDto
         $this->password = $password;
         $this->email = $email;
     }
+    
 }

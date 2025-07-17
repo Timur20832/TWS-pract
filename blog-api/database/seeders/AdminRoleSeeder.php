@@ -10,30 +10,56 @@ class AdminRoleSeeder extends Seeder
 {
     public function run(): void
     {
-        $user = User::find(10);
-
+        // Создаём пользователя-админа, если его нет
+        $user = User::where('email', 'admin@example.com')->first();
         if (!$user) {
-            $this->command->error('User with ID 10 not found!');
-            return;
+            $user = User::create([
+                'name' => 'Admin',
+                'email' => 'admin@example.com',
+                'password' => bcrypt('admin123'),
+            ]);
+            $this->command->info('Admin user created: admin@example.com / admin123');
+        } else {
+            $this->command->info('Admin user already exists: admin@example.com');
         }
 
-        // Права, которые хочешь выдать
+        // Создаём роль admin, если используется система ролей
+        $role = Role::where('slug', 'admin')->first();
+        if (!$role) {
+            $role = Role::create([
+                'name' => 'Administrator',
+                'slug' => 'admin',
+                'permissions' => [
+                    'platform.index' => true,
+                    'platform.systems.attachment' => true,
+                    'platform.systems.users' => true,
+                    'platform.posts.list' => true,
+                    'platform.systems.roles' => true,
+                ],
+            ]);
+            $this->command->info('Admin role created');
+        } else {
+            $this->command->info('Admin role already exists');
+        }
+
+        // Назначаем роль пользователю (если не назначена)
+        if (method_exists($user, 'roles')) {
+            if (!$user->roles()->where('slug', 'admin')->exists()) {
+                $user->roles()->attach($role);
+                $this->command->info('Admin role attached to user');
+            }
+        }
+
+        // Выдаём все права напрямую пользователю
         $permissions = [
             'platform.index' => true,
             'platform.systems.attachment' => true,
             'platform.systems.users' => true,
             'platform.posts.list' => true,
             'platform.systems.roles' => true,
-            // добавь сюда ещё нужные права
         ];
-
-        // Обновляем существующие права (если что-то уже есть)
-        $currentPermissions = $user->permissions ?? [];
-        $newPermissions = array_merge($currentPermissions, $permissions);
-
-        $user->permissions = $newPermissions;
+        $user->permissions = $permissions;
         $user->save();
-
-        $this->command->info('Permissions updated for user ID 10');
+        $this->command->info('Permissions updated for admin user');
     }
 }
