@@ -157,7 +157,7 @@ return [
     */
 
     'icons' => [
-        'orc' => \Orchid\IconPack\Path::getFolder(),
+        // 'orc' => \Orchid\IconPack\Path::getFolder(), // Removed for Laravel 12 compatibility
     ],
 
     /*
