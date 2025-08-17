@@ -23,7 +23,7 @@ class AdminRoleSeeder extends Seeder
             $this->command->info('Admin user already exists: admin@example.com');
         }
 
-        // Создаём роль admin, если используется система ролей
+        // Создаём роль admin, если её нет
         $role = Role::where('slug', 'admin')->first();
         if (!$role) {
             $role = Role::create([
@@ -34,7 +34,6 @@ class AdminRoleSeeder extends Seeder
                     'platform.systems.attachment' => true,
                     'platform.systems.users' => true,
                     'platform.posts.list' => true,
-                    'platform.systems.roles' => true,
                 ],
             ]);
             $this->command->info('Admin role created');
@@ -56,7 +55,6 @@ class AdminRoleSeeder extends Seeder
             'platform.systems.attachment' => true,
             'platform.systems.users' => true,
             'platform.posts.list' => true,
-            'platform.systems.roles' => true,
         ];
         $user->permissions = $permissions;
         $user->save();

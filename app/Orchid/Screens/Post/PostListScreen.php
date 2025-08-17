@@ -24,16 +24,29 @@ class PostListScreen extends Screen
         return 'PostListScreen';
     }
 
+    
+    public function description(): ?string
+    {
+        return 'All registerer posts';
+    }
+
     public function commandBar(): iterable
     {
-        return [];
+        return [
+            Link::make('Add')
+                ->route('platform.posts.create')
+                ->icon('plus'),
+        ];
     }
 
     public function layout(): iterable
     {
         return [Layout::table('posts', [
             TD::make('title', 'Заголовок')->filter(),
-            TD::make('content', 'Содержание')->filter(),
+            TD::make('text', 'Содержание')->filter(),
+            TD::make('user_id', 'Автор')->render(function (Post $post) {
+                return $post->user->name ?? 'Неизвестно';
+            }),
             TD::make('created_at', 'Создан')->sort(),
             TD::make('Actions', 'Действия')->render(function (Post $post) {
                 return

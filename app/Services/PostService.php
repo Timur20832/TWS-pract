@@ -18,11 +18,9 @@ class PostService
      */
     public function createPost(User $user, CreatePostDto $dto): Post
     {
-        // В ТЗ поле называется text, но в модели Post оно обычно content.
-        // Здесь предполагается, что CreatePostDto::content соответствует text из запроса.
         $post = new Post();
         $post->title = $dto->title;
-        $post->content = $dto->content; // dto->content = text из запроса
+        $post->content = $dto->text; // dto->text соответствует text из запроса
         $post->user_id = $user->id;
 
         $post->save();

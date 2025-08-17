@@ -24,7 +24,7 @@ class PostController extends Controller
     {
         $dto = new CreatePostDto(
             $request->input('title'),
-            $request->input('content')
+            $request->input('text')
         );
 
         $post = $this->postService->createPost($request->user(), $dto);

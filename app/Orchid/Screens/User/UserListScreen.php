@@ -25,7 +25,7 @@ class UserListScreen extends Screen
 
     public function name(): ?string
     {
-        return 'User';
+        return 'UserListScreen';
     }
 
     public function description(): ?string
@@ -49,7 +49,7 @@ class UserListScreen extends Screen
                 TD::make('name', 'Имя'),
                 TD::make('email', 'Email'),
                 TD::make('updated_at', 'Обновлено'),
-                TD::make('Actions')
+                TD::make('Actions', 'Действия')
                     ->render(
                     function(User $user) {
                         return '<div class="d-flex flex-column gap-2">' .

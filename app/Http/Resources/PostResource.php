@@ -11,9 +11,10 @@ class PostResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'content' => $this->content,
+            'text' => $this->text,
             'created_at' => $this->created_at,
             'user_id' => $this->user_id,
+            'author_name' => $this->user->name ?? null,
         ];
     }
 }

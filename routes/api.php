@@ -19,12 +19,10 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('auth')->group(function () {
     Route::post('register', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
-    Route::get('me', [AuthController::class, 'me'])->middleware('auth:sanctum');
-    Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 });
 
-Route::middleware('auth:sanctum')->prefix('posts')->group(function () {
-    Route::post('/', [PostController::class, 'create']);
+Route::prefix('posts')->group(function () {
+    Route::post('/', [PostController::class, 'create'])->middleware('auth:sanctum');
     Route::get('/', [PostController::class, 'all']);
-    Route::get('/my', [PostController::class, 'my']);
+    Route::get('/my', [PostController::class, 'my'])->middleware('auth:sanctum');
 });

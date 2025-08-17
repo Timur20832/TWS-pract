@@ -20,7 +20,7 @@ class CreatePostRequest extends FormRequest
     {
         return [
         'title' => ['required', 'string', 'max:255'],
-        'content' => ['required', 'string'],
+        'text' => ['required', 'string', 'min:10', 'max:1000'],
     ];
     }
 }

@@ -10,6 +10,7 @@ use Orchid\Platform\Models\User;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Password;
+use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Layout;
 use Orchid\Support\Facades\Toast;
@@ -52,6 +53,7 @@ class UserEditScreen extends Screen
             'user.name' => 'required|string|max:255',
             'user.email' => 'required|email|unique:users,email,' . $user->id,
             'user.password' => 'nullable|string|min:6',
+            'user.roles' => 'nullable|array',
         ]);
 
         $user->fill([
@@ -65,6 +67,11 @@ class UserEditScreen extends Screen
 
         $user->save();
 
+        // Сохраняем роли пользователя
+        if (isset($validated['user']['roles'])) {
+            $user->roles()->sync($validated['user']['roles']);
+        }
+
         Toast::info('Пользователь сохранён!');
     }
 
@@ -75,6 +82,12 @@ class UserEditScreen extends Screen
                 Input::make('user.name')->title('Имя'),
                 Input::make('user.email')->title('Email'),
                 Password::make('user.password')->title('Пароль'),
+                Select::make('user.roles')
+                    ->title('Роли')
+                    ->multiple()
+                    ->fromModel(\Orchid\Platform\Models\Role::class, 'name')
+                    ->empty('Выберите роли')
+                    ->help('Выберите роли для пользователя'),
             ]),
         ];
     }

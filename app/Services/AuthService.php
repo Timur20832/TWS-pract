@@ -4,6 +4,7 @@ namespace App\Services;
 use App\DTO\Auth\LoginDto;
 use App\DTO\Auth\RegisterDto;
 use App\Models\User;
+use Orchid\Platform\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -23,6 +24,12 @@ class AuthService
             'email' => $dto->email,
             'password' => Hash::make($dto->password),
         ]);
+
+        // Автоматически назначаем роль "user" новому пользователю
+        $userRole = Role::where('slug', 'user')->first();
+        if ($userRole) {
+            $user->roles()->attach($userRole);
+        }
 
         $token = $user->createToken('auth_token')->plainTextToken;
 

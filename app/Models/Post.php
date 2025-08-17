@@ -11,7 +11,7 @@ use Orchid\Screen\AsSource;
 class Post extends Model
 {
     use HasFactory, AsSource, Filterable, Attachable;
-    protected $fillable = ['title', 'content', 'user_id'];
+    protected $fillable = ['title', 'text', 'user_id'];
 
     public function user()
     {
