@@ -48,17 +48,4 @@ class AuthService
 
         return $user->createToken('auth_token')->plainTextToken;
     }
-    public function logout(User $user): void
-    {
-        $user->tokens()->delete();
-    }
-
-    public function me(User $user): array
-    {
-        return [
-            'id' => $user->__get('id'),
-            'name' => $user->__get('name'),
-            'email' => $user->__get('email'),
-        ];
-    }
 }
